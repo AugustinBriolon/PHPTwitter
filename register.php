@@ -5,88 +5,85 @@ require('model/functions.fn.php');
 /*===============================
 	Register
 ===============================*/
+// S'il y a une session alors on ne retourne plus sur cette page
+if (isset($_SESSION['id'])){
+	header('Location: index.php');
+	exit;
+}
 
-session_start();
-		include('model/config.php'); // Fichier PHP contenant la connexion à la BDD
+// Si la variable "$_Post" contient des informations alors on les traitres
+if(!empty($_POST)){
+	extract($_POST);
+	$valid = true;
 
-		// S'il y a une session alors on ne retourne plus sur cette page
-		if (isset($_SESSION['id'])){
-		header('Location: index.php');
-		exit;
-    }
+	// On se place sur le bon formulaire grâce au "name" de la balise "input"
+	if (isset($_POST['inscription'])){
+		$username = htmlentities(trim($username)); // on récupère le surnom
+		$email = htmlentities(strtolower(trim($email))); // On récupère l'email
+		$mdp = trim($mdp); // On récupère le mot de passe 
 
-    // Si la variable "$_Post" contient des informations alors on les traitres
-    if(!empty($_POST)){
-        extract($_POST);
-        $valid = true;
+		//  Vérification du surnom
+		if(empty($username)){
+			$valid = false;
+			$er_username = ("Le surnom d' utilisateur ne peut pas être vide");
+		// On vérifit que le surnom est disponible
+		}else{
+			$req_username = $db->query("SELECT username FROM users WHERE username = ?",
+				array($username));
 
-        // On se place sur le bon formulaire grâce au "name" de la balise "input"
-        if (isset($_POST['inscription'])){
-            $nom  = htmlentities(trim($nom)); // On récupère le nom
-            $prenom = htmlentities(trim($prenom)); // on récupère le prénom
-            $mail = htmlentities(strtolower(trim($mail))); // On récupère le mail
-            $mdp = trim($mdp); // On récupère le mot de passe 
-            $confmdp = trim($confmdp); //  On récupère la confirmation du mot de passe
+			$req_username = $req_username->fetch();
 
-            //  Vérification du nom
-            if(empty($nom)){
-                $valid = false;
-                $er_nom = ("Le nom d' utilisateur ne peut pas être vide");
-            }       
- 
-            //  Vérification du prénom
-            if(empty($prenom)){
-                $valid = false;
-                $er_prenom = ("Le prenom d' utilisateur ne peut pas être vide");
-            }       
- 
-            // Vérification du mail
-            if(empty($mail)){
-                $valid = false;
-                $er_mail = "Le mail ne peut pas être vide";
- 
-                // On vérifit que le mail est dans le bon format
-            }elseif(!preg_match("/^[a-z0-9\-_.]+@[a-z]+\.[a-z]{2,3}$/i", $mail)){
-                $valid = false;
-                $er_mail = "Le mail n'est pas valide";
- 
-            }else{
-                // On vérifit que le mail est disponible
-                $req_mail = $DB->query("SELECT mail FROM utilisateur WHERE mail = ?",
-                    array($mail));
- 
-                $req_mail = $req_mail->fetch();
- 
-                if ($req_mail['mail'] <> ""){
-                    $valid = false;
-                    $er_mail = "Ce mail existe déjà";
-                }
-            }
- 
-            // Vérification du mot de passe
-            if(empty($mdp)) {
-                $valid = false;
-                $er_mdp = "Le mot de passe ne peut pas être vide";
- 
-            }elseif($mdp != $confmdp){
-                $valid = false;
-                $er_mdp = "La confirmation du mot de passe ne correspond pas";
-            }
- 
-            // Si toutes les conditions sont remplies alors on fait le traitement
-            if($valid){
- 
-                $mdp = crypt($mdp, "$6$rounds=5000$macleapersonnaliseretagardersecret$");
-                $date_creation_compte = date('Y-m-d H:i:s');
- 
-                // On insert nos données dans la table utilisateur
-                $DB->insert("INSERT INTO utilisateur (nom, prenom, mail, mdp, date_creation_compte) VALUES 
-                    (?, ?, ?, ?, ?)", 
-                    array($nom, $prenom, $mail, $mdp, $date_creation_compte));
- 
-                header('Location: index.php');
-                exit;
-            }
-        }
-    }
+			if ($req_username['username'] <> ""){
+				$valid = false;
+				$er_username = "Ce surnom existe déjà";
+			}
+			}
+
+		// Vérification de l'email
+		if(empty($email)){
+			$valid = false;
+			$er_email = "Le mail ne peut pas être vide";
+		}else{
+			// On vérifit que l'email est disponible
+			$req_email = $db->query("SELECT email FROM users WHERE email = ?",
+				array($email));
+
+			$req_email = $req_email->fetch();
+
+			if ($req_email['email'] <> ""){
+				$valid = false;
+				$er_email = "Cet email existe déjà";
+			}
+		}
+
+		// Vérification du mot de passe
+		if(empty($mdp)) {
+			$valid = false;
+			$er_mdp = "Le mot de passe ne peut pas être vide";
+		}
+
+		// Si toutes les conditions sont remplies alors on fait le traitement
+		if($valid){
+
+			$mdp = crypt($mdp, '$6$rounds=5000$shshsbfxsdthshshsh');
+
+			// On insert les données dans le tableau
+			$db->insert("INSERT TO users(username, email, password) VALUES
+				(?, ?, ?)",
+				array($username, $email, $mdp));
+
+			header('Location: dashboard.php');
+			exit;
+		}
+	}
+}
+
+/********************************
+			VIEW
+********************************/
+//On include toujours la view en dernier
+include 'view/_header.php';
+include 'view/register.php';
+include 'view/_footer.php';
+
 ?>
