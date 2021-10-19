@@ -1,18 +1,10 @@
 <?php
 
-$host = 'localhost';
-$dbname = 'TechUpdate';
-$user = 'root';
-$pass = 'root';
-
-
-$db = new PDO('mysql:host='.$host.';dbname='.$dbname, $user, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
-
-// try{
-
-// }
-// catch(Exception $e)
-// {
-//     echo 'Erreur : '.$e->getMessage().'<br />';
-//     echo 'N° : '.$e->getCode();
-// }
+try 
+{
+    $db = new PDO("mysql:host=localhost;dbname=TechUpdate;charset=utf8", "root", "root");
+}
+catch(PDOException $e)
+{
+    die('Erreur : '.$e->getMessage());
+}

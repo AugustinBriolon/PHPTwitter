@@ -10,22 +10,32 @@ require('model/functions.fn.php');
 /********************************
 			PROCESS
 ********************************/
+if(!empty($_POST['email']) && !empty($_POST['password'])){
+	// Patch XSS
+	$email = htmlspecialchars($_POST['email']); 
+	$mdp = htmlspecialchars($_POST['password']);
 
-//si l'utilisateur valide le formulaire
-if(!empty($_POST)){
-	//la fonction userConnection renvoie true ou false
-		//true ->  connexion = OK
-		//false -> connexion = FAIL
-	$connect = userConnection($db,$_POST['email'],$_POST['password']);
+	// On regarde si l'utilisateur est inscrit dans la table utilisateurs
+	$check = $db->prepare('SELECT username, email, password FROM users WHERE email = ?');
+	$check->execute(array($email));
+	$data = $check->fetch();
+	$row = $check->rowCount();
 
-	//si connexion OK on redirige sur le dashboard
-	if($connect == true){
-		header('Location: dashboard.php');
-	}
-	else{
-		$error = 'Le couple email / mot de passe est incorrect';
-	}
-	
+	if($row > 0)
+        {
+            // Si le mail est bon niveau format
+            if(filter_var($email, FILTER_VALIDATE_EMAIL))
+            {
+                // Si le mot de passe est le bon
+                if(password_verify($mdp, $data['password']))
+                {
+                    // On créer la session et on redirige 
+                    $_SESSION['user'] = $data['username'];
+                    header('Location: dashboard.php');
+                    die();
+				}
+			}
+		}
 }
 
 /********************************
@@ -35,3 +45,5 @@ if(!empty($_POST)){
 include 'view/_header.php';
 include 'view/login.php';
 include 'view/_footer.php';
+
+?>

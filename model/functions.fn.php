@@ -46,36 +46,7 @@ SUMMARY
 			$password -> 		field value : password
 		*/
 function userConnection(PDO $db, $email, $password){
-	if(!empty($email) && !empty($password)){
-		//Requête SQL
-		$sql = "SELECT * FROM users WHERE email = :eml AND password = :passwd LIMIT 1";
-
-		$req = $db->prepare($sql);
-		$req->execute(array(
-			':eml' => $email,
-			':passwd' => $password
-		));
-
-		$result = $req->fetch(PDO::FETCH_ASSOC);
-
-		//Si le fetch réussi, alors un résultat a été retourné donc le couple email / password est correct
-		if($result == true){
-			
-			//on définit la SESSION
-			$_SESSION['id'] = $result['id'];
-			$_SESSION['username'] = $result['username'];
-			$_SESSION['email'] = $result['email'];
-			$_SESSION['created_at'] = $result['created_at'];
-			$_SESSION['picture'] = $result['picture'];
-
-			return true;
-		}else{
-			return false;
-		}
-	}else{
-		//Si les champs sont vides on retourne false
-		return false;
-	}
+	
 }
 
 

@@ -27,10 +27,18 @@
 							<div class="author">
 								<img src="view/profil_pic/undefined.jpg" alt="">
 							</div>
-							<b class="username">JonathanW</b>
-							<p class="created_at">member since : <span>01/04/2013</span></p>
+							<b class="username">
+								<div>
+									<?php echo $username ?>
+								</div>
+							</b>
+							<p class="created_at">member since : <span>
+								<div>
+									<?php echo $created_at ?>
+								</div>
+							</p>
 						</div>
-						<a href="index.php" class="logout">logout</a>
+						<a href="logout.php" class="logout">logout</a>
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
@@ -50,7 +58,7 @@
 								<div class="col-xs-10 col-sm-10 col-md-11 col-lg-11">
 									<div class="pull-right">
 										<ul class="list-inline actionicon">
-											<li><a href="index.php"><i class="fa fa-pencil"></i></a></li>
+											<li><a href="edit.php"><i class="fa fa-pencil"></i></a></li>
 											<li><a href="index.php"><i class="fa fa-times"></i></a></li>
 										</ul>
 									</div>
@@ -70,7 +78,7 @@
 								<div class="col-xs-10 col-sm-10 col-md-11 col-lg-11">
 									<div class="pull-right">
 										<ul class="list-inline actionicon">
-											<li><a href="index.php"><i class="fa fa-pencil"></i></a></li>
+											<li><a href="edit.php"><i class="fa fa-pencil"></i></a></li>
 											<li><a href="index.php"><i class="fa fa-times"></i></a></li>
 										</ul>
 									</div>

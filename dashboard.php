@@ -6,7 +6,10 @@ require('model/functions.fn.php');
 	Dashboard
 ===============================*/
 
-
+if (isset($_SESSION['id'])){
+	header('Location: dashboard.php');
+	exit;
+}
 
 
 

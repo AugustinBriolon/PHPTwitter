@@ -46,7 +46,7 @@
 									<b class="username">JonathanW</b>
 									<form action="#" method="POST">
 										<textarea name="content">I am an awesome tweet, check it out!</textarea>
-										<p class="clearfix"><button type="submit" class="valid pull-right"><i class="fa fa-check"></i> edit</button></p>
+										<p class="clearfix"><button type="submit" class="valid pull-right"><i class="fa fa-check"><a href="dashboard.php"></i> edit</button></p>
 									</form>
 								</div>
 							</div>

@@ -14,6 +14,16 @@
 							<input type="password" name="password" placeholder="Password">
 						</span>
 					</div>
+
+					<?php
+							// S'il y a une erreur sur le nom alors on affiche
+							if (isset($error)){
+						?>
+						<div><?= $error ?></div>
+						<?php
+							}
+						?>
+
 					<div class="form-submit">
 						<input type="submit" value="Connecter">	
 					</div>
