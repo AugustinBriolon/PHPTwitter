@@ -16,26 +16,27 @@ if(!empty($_POST['email']) && !empty($_POST['password'])){
 	$mdp = htmlspecialchars($_POST['password']);
 
 	// On regarde si l'utilisateur est inscrit dans la table utilisateurs
-	$check = $db->prepare('SELECT username, email, password FROM users WHERE email = ?');
-	$check->execute(array($email));
-	$data = $check->fetch();
-	$row = $check->rowCount();
+	$data = userConnection($db, $email, $mdp);
 
-	if($row > 0)
+	if(count($data) > 0){
+		
+        // Si le mail est bon niveau format
+        if(filter_var($email, FILTER_VALIDATE_EMAIL))
         {
-            // Si le mail est bon niveau format
-            if(filter_var($email, FILTER_VALIDATE_EMAIL))
+            // Si le mot de passe est le bon
+            if(password_verify($mdp, $data['password']))
             {
-                // Si le mot de passe est le bon
-                if(password_verify($mdp, $data['password']))
-                {
-                    // On créer la session et on redirige 
-                    $_SESSION['user'] = $data['username'];
-                    header('Location: dashboard.php');
-                    die();
-				}
+                // On créer la session et on redirige 
+                $_SESSION['user'] = $data['username'];
+                header('Location: dashboard.php');
+                die();
 			}
+		}else{
+			$errorEmail = "L'adresse mail n'existe pas";
 		}
+	}else{
+		$errorMdp = "Le mot de passe est incorrect";
+	}
 }
 
 /********************************

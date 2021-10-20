@@ -31,9 +31,7 @@ else{
 				$er_username = ("Le surnom d' utilisateur ne peut pas être vide");
 			// On vérifit que le surnom est disponible
 			}else{
-				$req_username = $db->prepare("SELECT * FROM users WHERE username=?");
-				$req_username->execute([$username]); 
-				$usernameResultat = $req_username->fetch();
+				$usernameResultat = isUsernameAvailable($db, $username);
 
 				if ($usernameResultat){
 					$er_username = "Ce surnom existe déjà";
@@ -46,9 +44,7 @@ else{
 				$er_email = "Le mail ne peut pas être vide";
 			}else{
 				// On vérifit que l'email est disponible
-				$req_email = $db->prepare("SELECT * FROM users WHERE email=?");
-				$req_email->execute([$email]); 
-				$emailResultat = $req_email->fetch();
+				$emailResultat = isEmailAvailable($db, $email);			
 
 				if ($emailResultat){
 					$er_email = "Cet email existe déjà";
@@ -66,19 +62,10 @@ else{
 
 				$mdp = crypt($mdp, '$6$rounds=5000$shshsbfxsdthshshsh');
 
-				// A modifier
-				$picture = 'view/profil_pic/undefined.jpg';
 
 				// var_dump($username, $email, $mdp);
 				// On insert les données dans le tableau
-				$requete = $db->prepare("INSERT INTO users(username, email, password, picture) VALUES
-					(?, ?, ?, ?)");
-					$requete->bindParam(1, $username);
-					$requete->bindParam(2, $email);
-					$requete->bindParam(3, $mdp);
-					$requete->bindParam(4, $picture);
-					$requete->execute();
-				
+				$requete = userRegistration($db, $username, $email, $mdp, );	
 				header('Location: dashboard.php');
 				exit;
 			}	

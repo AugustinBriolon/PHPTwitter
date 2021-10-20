@@ -9,6 +9,16 @@
 							<input type="text" name="email" placeholder="Email">
 						</span>
 					</div>
+
+					<?php
+						// S'il y a une erreur sur le nom alors on affiche
+						if (isset($errorEmail)){
+					?>
+					<div><?= $errorEmail ?></div>
+					<?php
+						}
+					?>
+
 					<div class="form-input">
 						<span class="password">
 							<input type="password" name="password" placeholder="Password">
@@ -16,13 +26,13 @@
 					</div>
 
 					<?php
-							// S'il y a une erreur sur le nom alors on affiche
-							if (isset($error)){
-						?>
-						<div><?= $error ?></div>
-						<?php
-							}
-						?>
+						// S'il y a une erreur sur le mdp alors on affiche
+						if (isset($errorMdp)){
+					?>
+					<div><?= $errorMdp ?></div>
+					<?php
+						}
+					?>
 
 					<div class="form-submit">
 						<input type="submit" value="Connecter">	

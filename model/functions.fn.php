@@ -2,15 +2,15 @@
 /*******************************************************************
 SUMMARY
 	1!FUNCTIONS
-		1.1!userRegistration
-		1.2!userConnection
+		1.1!userRegistration OK
+		1.2!userConnection OK
 		1.3!selectTweets
 		1.4!selectTweet
 		1.5!insertTweet
 		1.6!updateTweet
 		1.7!deleteTweet
-		1.8!isEmailAvailable
-		1.9!isUsernameAvailable
+		1.8!isEmailAvailable OK
+		1.9!isUsernameAvailable OK
 		2.0!isTweetOwner
 		2.1!updateProfilPicture	
 
@@ -30,10 +30,17 @@ SUMMARY
 			$email -> 			field value : email
 			$password -> 		field value : password
 		*/
-	function userRegistration(PDO $db, $username, $email, $password){
+	function userRegistration(PDO $db, $username, $email, $mdp){
+		// A modifier
+		$picture = 'view/profil_pic/undefined.jpg';
 
-		
-
+		$requete = $db->prepare("INSERT INTO users(username, email, password, picture) VALUES
+					(?, ?, ?, ?)");
+					$requete->bindParam(1, $username);
+					$requete->bindParam(2, $email);
+					$requete->bindParam(3, $mdp);
+					$requete->bindParam(4, $picture);
+					return $requete->execute();
 	}
 
 
@@ -45,8 +52,10 @@ SUMMARY
 			$email -> 			field value : email
 			$password -> 		field value : password
 		*/
-function userConnection(PDO $db, $email, $password){
-	
+function userConnection(PDO $db, $email, $mdp){
+	$check = $db->prepare('SELECT username, email, password FROM users WHERE email = ?');
+	$check->execute(array($email));
+	return $check->fetch();
 }
 
 
@@ -128,9 +137,9 @@ function userConnection(PDO $db, $email, $password){
 			$email ->			email's value to verify
 		*/
 	function isEmailAvailable(PDO $db, $email){
-
-		
-
+		$req_email = $db->prepare("SELECT * FROM users WHERE email=?");
+		$req_email->execute([$email]); 
+		return $req_email->fetch();
 	}		
 
 
@@ -142,9 +151,9 @@ function userConnection(PDO $db, $email, $password){
 			$username ->		username's value to verify
 		*/
 	function isUsernameAvailable(PDO $db, $username){
-
-		
-
+		$req_username = $db->prepare("SELECT * FROM users WHERE username=?");
+		$req_username->execute([$username]); 
+		return $req_username->fetch();
 	}		
 
 
