@@ -6,12 +6,12 @@
 					<div class="container">
 						<div class="row">
 							<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1 text-center">
-								<a href="index.php" class="logo"><i class="fa fa-twitter"></i></a>
+								<a href="dashboard.php" class="logo"><i class="fa fa-twitter"></i></a>
 							</div>
 							<div class="col-xs-10 col-sm-10 col-md-11 col-lg-11">
 								<form action="dashboard.php" method='POST'>
-									<input type="text" name='tweet' placeholder="Hey, tell us what's up...">
-									<button type="submit"><i class="fa fa-twitter"></i> Tweet it</button>
+									<?= $form->input('message') ?>
+									<button type="submit"><i class="fa fa-twitter" name='insertTweet'></i> Tweet it</button>
 								</form>
 							</div>
 						</div>
@@ -29,12 +29,12 @@
 							</div>
 							<b class="username">
 								<div>
-									<?php echo $username ?>
+									<?= $usernameID ?>
 								</div>
 							</b>
 							<p class="created_at">member since : <span>
 								<div>
-									<?php echo $created_at ?>
+									<?= $created_atID ?>
 								</div>
 							</p>
 						</div>

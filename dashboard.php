@@ -6,10 +6,14 @@ require('model/functions.fn.php');
 	Dashboard
 ===============================*/
 
+$usernameID = htmlentities(trim($_GET['username']));
+$created_atID = htmlentities(trim($_GET['created_at']));
+
 if (isset($_SESSION['id'])){
 	header('Location: dashboard.php');
 	exit;
 }
+
 
 
 

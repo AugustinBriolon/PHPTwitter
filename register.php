@@ -32,7 +32,8 @@ else{
 			// On vérifit que le surnom est disponible
 			}else{
 				$usernameResultat = isUsernameAvailable($db, $username);
-
+				var_dump($usernameResultat);
+				die();
 				if ($usernameResultat){
 					$er_username = "Ce surnom existe déjà";
 				}

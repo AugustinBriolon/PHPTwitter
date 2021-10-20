@@ -92,7 +92,22 @@ function userConnection(PDO $db, $email, $mdp){
 			$message ->			field value : message
 		*/
 	function insertTweet(PDO $db, $user_id, $message){
+		$success = false;
+		$errors = [];
+		$post = new Post(); 
 
+		if (!empty($_POST)){ 
+			$postTable = new PostTable($db);
+			Valisator::lang('fr');
+			$v = new PostValidator($_POST, $postTable, $post->getID());
+			ObjectHelper::hydrate($post, $_POST,['user_id', 'message']);
+			if ($v->validate()){ 
+				$postTable->update($post);
+				$success = true;
+			} else {
+				$errors = $v->$errors();
+			}
+}
 
 
 	}

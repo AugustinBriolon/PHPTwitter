@@ -26,7 +26,13 @@
 							<div class="author">
 								<img src="view/profil_pic/undefined.jpg" alt="">
 							</div>
-							<b class="username">JonathanW</b>
+							<b class="username">
+								<div> 
+									<?=
+										$usernameID
+									?>
+								</div>
+							</b>
 							<p class="created_at">member since : <span>01/04/2013</span></p>
 						</div>
 						<a href="" class="logout">logout</a>
@@ -45,7 +51,16 @@
 								<div class="col-xs-10 col-sm-10 col-md-11 col-lg-11">
 									<b class="username">JonathanW</b>
 									<form action="#" method="POST">
-										<textarea name="content">I am an awesome tweet, check it out!</textarea>
+										<textarea name="content">
+											<div> 
+												<?=
+													$content
+												?>
+											</div>
+										</textarea>
+											<?=
+												$errorsMessage
+											?>
 										<p class="clearfix"><button type="submit" class="valid pull-right"><i class="fa fa-check"><a href="dashboard.php"></i> edit</button></p>
 									</form>
 								</div>
