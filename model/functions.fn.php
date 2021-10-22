@@ -65,8 +65,10 @@ function userConnection(PDO $db, $email, $mdp){
 			$db -> 				database object
 		*/
 	function selectTweets(PDO $db){
-
-		
+		$check = "SELECT * FROM tweets ORDER BY created_at DESC ";
+		$req = $db->prepare($check);
+		$req->execute();
+		$result = $req->fetchAll(PDO::FETCH_ASSOC);
 
 	}
 
@@ -92,24 +94,15 @@ function userConnection(PDO $db, $email, $mdp){
 			$message ->			field value : message
 		*/
 	function insertTweet(PDO $db, $user_id, $message){
-		$success = false;
-		$errors = [];
-		$post = new Post(); 
-
-		if (!empty($_POST)){ 
-			$postTable = new PostTable($db);
-			Valisator::lang('fr');
-			$v = new PostValidator($_POST, $postTable, $post->getID());
-			ObjectHelper::hydrate($post, $_POST,['user_id', 'message']);
-			if ($v->validate()){ 
-				$postTable->update($post);
-				$success = true;
-			} else {
-				$errors = $v->$errors();
-			}
-}
-
-
+		if(!empty($message)){
+			$check = "INSERT INTO tweets SET `user_id` = :id_user, pseudo = :pseudo, `message` = :tweet";
+			$req = $db->prepare($check);
+			$req->execute(array(
+				':id_user' => $user_id,
+				':pseudo' => $pse,
+				':tweet' => $message
+			));
+		} 
 	}
 
 
@@ -138,9 +131,12 @@ function userConnection(PDO $db, $email, $mdp){
 			$user_id -> 		user's id (tweet's owner) | must use $_SESSION['id']
 		*/
 	function deleteTweet(PDO $db, $tweet_id, $user_id){
-
 		
-
+		$check = "DELETE FROM tweets WHERE id = :id";
+		$req = $db->prepare($check);
+		$req->execute(array(
+				':id' => $tweet_id
+			));
 	}
 
 

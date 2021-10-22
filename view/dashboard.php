@@ -10,7 +10,7 @@
 							</div>
 							<div class="col-xs-10 col-sm-10 col-md-11 col-lg-11">
 								<form action="dashboard.php" method='POST'>
-									<?= $form->input('message') ?>
+									<input type="text" name='tweet' placeholder="Hey, tell us what's up...">
 									<button type="submit"><i class="fa fa-twitter" name='insertTweet'></i> Tweet it</button>
 								</form>
 							</div>
@@ -28,14 +28,10 @@
 								<img src="view/profil_pic/undefined.jpg" alt="">
 							</div>
 							<b class="username">
-								<div>
-									<?= $usernameID ?>
-								</div>
+
 							</b>
 							<p class="created_at">member since : <span>
-								<div>
-									<?= $created_atID ?>
-								</div>
+
 							</p>
 						</div>
 						<a href="logout.php" class="logout">logout</a>
@@ -54,12 +50,13 @@
 									<div class="author">
 										<img src="view/profil_pic/undefined.jpg" alt="">
 									</div>	
-								</div>
+								</div> 
 								<div class="col-xs-10 col-sm-10 col-md-11 col-lg-11">
 									<div class="pull-right">
 										<ul class="list-inline actionicon">
+
 											<li><a href="edit.php"><i class="fa fa-pencil"></i></a></li>
-											<li><a href="index.php"><i class="fa fa-times"></i></a></li>
+											<li><a href="dashboard.php"><i class="fa fa-times"></i></a></li>
 										</ul>
 									</div>
 									<b class="username">JonathanW</b>
@@ -82,12 +79,12 @@
 											<li><a href="index.php"><i class="fa fa-times"></i></a></li>
 										</ul>
 									</div>
-									<b class="username">JonathanW</b>
-									<p class="content">I am an awesome tweet by JonathanW, check it out!</p>
-									<p class="clearfix"><small class="date pull-right"><i class="fa fa-clock-o"></i> 08/04/2013</small></p>
+									<b class="username"><?php echo $value['username'] ?></b>
+									<p class="content"><?php echo $value['message'] ?></p>
+									<p class="clearfix"><small class="date pull-right"><i class="fa fa-clock-o"></i><?php echo $value['created_at'] ?></small></p>
 								</div>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>

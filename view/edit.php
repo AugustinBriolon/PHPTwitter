@@ -8,7 +8,7 @@
 								<a href="index.php" class="logo"><i class="fa fa-twitter"></i></a>
 							</div>
 							<div class="col-xs-10 col-sm-10 col-md-11 col-lg-11">
-								<form action="edit.php" method='POST'>
+								<form action="dashboard.php" method='POST'>
 									<input type="text" name='tweet' placeholder="Hey, tell us what's up...">
 									<button type="submit"><i class="fa fa-twitter"></i> Tweet it</button>
 								</form>
@@ -26,16 +26,10 @@
 							<div class="author">
 								<img src="view/profil_pic/undefined.jpg" alt="">
 							</div>
-							<b class="username">
-								<div> 
-									<?=
-										$usernameID
-									?>
-								</div>
-							</b>
-							<p class="created_at">member since : <span>01/04/2013</span></p>
+							<b class="username"><?php echo $_SESSION['username'] ?></b>
+							<p class="created_at">member since : <span> <?php echo $_SESSION['created_at'] ?></span></p>
 						</div>
-						<a href="" class="logout">logout</a>
+						<a href="../login.php" class="logout">logout</a>
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
@@ -49,18 +43,15 @@
 									</div>	
 								</div>
 								<div class="col-xs-10 col-sm-10 col-md-11 col-lg-11">
-									<b class="username">JonathanW</b>
+									<b class="username">
+										<?=
+											$_GET['user_id']
+										?>
+									</b>
 									<form action="#" method="POST">
 										<textarea name="content">
-											<div> 
-												<?=
-													$content
-												?>
-											</div>
+
 										</textarea>
-											<?=
-												$errorsMessage
-											?>
 										<p class="clearfix"><button type="submit" class="valid pull-right"><i class="fa fa-check"><a href="dashboard.php"></i> edit</button></p>
 									</form>
 								</div>

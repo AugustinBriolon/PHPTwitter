@@ -5,37 +5,25 @@ require('model/functions.fn.php');
 /*===============================
 	Edit
 ===============================*/
-$content = htmlentities(trim($_GET['message']));
-$usernameID = htmlentities(trim($_GET['username']));
-$errorsMessage = "L'article n'a pas pu être enregistré, merci de corriger vos erreurs.";
+$check = $db->query('SELECT * FROM tweets WHERE id =' . $_GET["id"] . '');
+$result = $check->fetch(PDO::FETCH_ASSOC);
 
 
-$success = false;
-$errors = [];
-$post = new Post();
-
-if (!empty($_POST)){ 
-	$postTable = new PostTable($db);
-	Valisator::lang('fr');
-	$v = new PostValidator($_POST, $postTable, $post->getID());
-	ObjectHelper::hydrate($post, $_POST,['suer_id', 'message',  'created_at']);
-	if ($v->validate()){ 
-		$postTable->update($post);
-		$success = true;
-	} else {
-		$errors = $v->$errors();
+// Si l'user valide l'edit
+if($_POST){
+	// Si l'user à le droit de modifier le tweet (= session)
+	if ($result['user_id'] == $_SESSION['id']){
+		updateTweet($db, $result['id'], $_POST['message']);
+		header('Location: dashboard.php');
+}
+else{
+	if ($_POST){
+	alert("Vous ne pouvez pas modifier ce message.");
 	}
 }
-
-$forms = new Form($post, $errors);
-
+}
 
 
-
-/********************************
-			VIEW
-********************************/
-//On include toujours la view en dernier
 include 'view/_header.php';
 include 'view/edit.php';
 include 'view/_footer.php';
