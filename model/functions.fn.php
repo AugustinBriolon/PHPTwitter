@@ -117,8 +117,12 @@ function userConnection(PDO $db, $email, $mdp){
 		*/
 	function updateTweet(PDO $db, $tweet_id, $message, $user_id){
 
-		
-
+		$check = "UPDATE tweets SET `message` = :newmsg WHERE id = :id";
+		$req = $db->prepare($check);
+		$req->execute(array(
+				':newmsg' => $message,
+				':id' => $tweet_id
+			));
 	}
 
 

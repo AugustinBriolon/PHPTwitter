@@ -10,6 +10,8 @@ if (isset($_SESSION['id'])){
 	exit;
 }
 
+
+
 //Ajouter un commentaire
 if(!empty($_POST['tweets'])){
     insertTweet($db, $_SESSION['id'], $_SESSION['username'], $_POST['tweets']);

@@ -14,6 +14,4 @@ catch(Exception $e)
     echo 'Erreur : '.$e->getMessage().'<br />';
     echo 'N° : '.$e->getCode();
 }
-function alert($msg) {
-    echo "<script type='text/javascript'>alert('$msg');</script>";
-}
+
